@@ -40,11 +40,12 @@
         <axis xyz="0.0 0.0 0.0"/>
     </joint>
 
-    <xacro:macro name="wheel" params="name x y">
+    <xacro:macro name="wheel" params="name x y side">
         <link name="${name}_wheel_link">
             <visual>
                 <geometry>
                     <cylinder radius="0.15" length="0.1"/>
+                    <!-- <mesh filename="package://mobile_robot/meshes/left_tire.stl" scale="0.01 0.01 0.01"/> -->
                 </geometry>
                 <material name="black"/>
             </visual>
@@ -52,6 +53,7 @@
                 <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
                 <geometry>
                     <cylinder radius="0.15" length="0.1"/>
+                    <!-- <mesh filename="package://mobile_robot/meshes/left_tire.stl" scale="0.01 0.01 0.01"/> -->
                 </geometry>
             </collision>
         </link>
@@ -64,26 +66,26 @@
     </xacro:macro>
     
     <!-- Front Right Wheel -->
-    <xacro:wheel name="front_right" x="-0.25" y="0.4" />
+    <xacro:wheel name="front_right" x="-0.25" y="0.4" side="right"/>
     <!-- Rear Left Wheel -->
-    <xacro:wheel name="rear_left" x="0.25" y="-0.4" />
+    <xacro:wheel name="rear_left" x="0.25" y="-0.4" side="left"/>
     <!-- Rear Right Wheel -->
-    <xacro:wheel name="rear_right" x="0.25" y="0.4" />
+    <xacro:wheel name="rear_right" x="0.25" y="0.4" side="right"/>
 
     <xacro:property name="side" value="front_left"/>
     <!-- Front Left Wheel -->
     <link name="${side}_wheel_link">
         <visual>
-        <geometry>
-            <cylinder radius="0.15" length="0.1"/>
-        </geometry>
-        <material name="black"/>
+            <geometry>
+                <cylinder radius="0.15" length="0.1"/>
+            </geometry>
+            <material name="black"/>
         </visual>
         <collision>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        <geometry>
-            <cylinder radius="0.15" length="0.1"/>
-        </geometry>
+            <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+            <geometry>
+                <cylinder radius="0.15" length="0.1"/>
+            </geometry>
         </collision>
     </link>
     <joint name="${side}_wheel_joint" type="continuous">
