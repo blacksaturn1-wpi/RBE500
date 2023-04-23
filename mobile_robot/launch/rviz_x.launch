@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <launch>
     <!-- sudo apt-get install ros-noetic-xacro -->
-    <param name="robot_description" command="xacro '$(find mobile_robot)/urdf/rover.xacro'"/>
+    <param name="robot_description" command="xacro '$(find mobile_robot)/urdf/rover_nomesh.xacro'"/>
     
     <arg name="rviz_config_file" default="$(find mobile_robot)/rviz/rover.rviz"/>
     
