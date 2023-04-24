@@ -158,13 +158,13 @@
   <link name="gripper_pole_back">
       <visual>
         <geometry>
-          <cylinder length="${-1*polelen}" radius="0.01"/>
+          <cylinder length="${polelen}" radius="0.01"/>
         </geometry>
         <origin xyz="${-1*polelen/2} 0 0" rpy="0 ${pi/2} 0 "/>
       </visual>
       <collision>
         <geometry>
-          <cylinder length="${-1*polelen}" radius="0.01"/>
+          <cylinder length="${polelen}" radius="0.01"/>
         </geometry>
         <origin xyz="${-1*polelen/2} 0 0" rpy="0 ${pi/2} 0 "/>
       </collision>
@@ -173,24 +173,24 @@
   <joint name="gripper_extension_back" type="prismatic">
     <parent link="base_link"/>
     <child link="gripper_pole_back"/>
-    <limit effort="1000.0" lower="-${width*2-.02}" upper="0" velocity="0.5"/>
-    <origin rpy="0 0 0" xyz="${-1*width-.01} 0 0.2"/>
+    <limit effort="1000.0" lower="${width*2-.02}" upper="0" velocity="0.5"/>
+    <origin rpy="0 0 0" xyz="${-1*width+.01} 0 0.2"/>
     <limit effort="30" velocity="0.2"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
 
 
-  <xacro:macro name="gripper" params="prefix reflect">
-    <joint name="${prefix}_gripper_joint" type="revolute">
+ <xacro:macro name="gripper" params="prefix suffix reflect front1_back0">
+    <joint name="${prefix}_gripper_joint_${suffix}" type="revolute">
       <axis xyz="0 0 ${reflect}"/>
       <limit effort="1000.0" lower="0.0" upper="0.548" velocity="0.5"/>
-      <origin rpy="0 0 0" xyz="${polelen} ${reflect*0.01} 0"/>
+      <origin rpy="0 0 0" xyz="${front1_back0*polelen} ${reflect*0.01} 0"/>
       <parent link="gripper_pole"/>
-      <child link="${prefix}_gripper"/>
+      <child link="${prefix}_gripper_${suffix}"/>
       <limit effort="30" velocity="1.0"/>
       <dynamics damping="0.0" friction="0.0"/>
     </joint>
-    <link name="${prefix}_gripper">
+    <link name="${prefix}_gripper_${suffix}">
       <visual>
         <origin rpy="${(reflect-1)/2*pi} 0 0" xyz="0 0 0"/>
         <geometry>
@@ -205,21 +205,21 @@
       </collision>
       <xacro:default_inertial mass="0.05"/>
     </link>
-    <transmission name="${prefix}_gripper_trans" type="SimpleTransmission">
+    <transmission name="${prefix}_gripper_trans_${suffix}" type="SimpleTransmission">
       <type>transmission_interface/SimpleTransmission</type>
-      <actuator name="${prefix}_gripper_motor">
+      <actuator name="${prefix}_gripper_motor_${suffix}">
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
-      <joint name="${prefix}_gripper_joint">
+      <joint name="${prefix}_gripper_joint_${suffix}">
         <hardwareInterface>PositionJointInterface</hardwareInterface>
       </joint>
     </transmission>
 
-    <joint name="${prefix}_tip_joint" type="fixed">
-      <parent link="${prefix}_gripper"/>
-      <child link="${prefix}_tip"/>
+    <joint name="${prefix}_tip_joint_${suffix}" type="fixed">
+      <parent link="${prefix}_gripper_${suffix}"/>
+      <child link="${prefix}_tip_${suffix}"/>
     </joint>
-    <link name="${prefix}_tip">
+    <link name="${prefix}_tip_${suffix}">
       <visual>
         <origin rpy="${(reflect-1)/2*pi} 0 0" xyz="0.09137 0.00495 0"/>
         <geometry>
@@ -236,8 +236,8 @@
     </link>
   </xacro:macro>
 
-  <xacro:gripper prefix="left" reflect="1" />
-  <xacro:gripper prefix="right" reflect="-1" />
+  <xacro:gripper prefix="left" suffix="front" reflect="1" front1_back0="1"/>
+  <!-- <xacro:gripper prefix="right" suffix="front" reflect="-1" front1_back0="1"/> -->
 
   <link name="head">
     <visual>
