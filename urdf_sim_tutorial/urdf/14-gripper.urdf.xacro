@@ -155,6 +155,31 @@
     </joint>
   </transmission>
 
+  <link name="gripper_pole_back">
+      <visual>
+        <geometry>
+          <cylinder length="${-1*polelen}" radius="0.01"/>
+        </geometry>
+        <origin xyz="${-1*polelen/2} 0 0" rpy="0 ${pi/2} 0 "/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="${-1*polelen}" radius="0.01"/>
+        </geometry>
+        <origin xyz="${-1*polelen/2} 0 0" rpy="0 ${pi/2} 0 "/>
+      </collision>
+      <xacro:default_inertial mass="0.05"/>
+  </link>
+  <joint name="gripper_extension_back" type="prismatic">
+    <parent link="base_link"/>
+    <child link="gripper_pole_back"/>
+    <limit effort="1000.0" lower="-${width*2-.02}" upper="0" velocity="0.5"/>
+    <origin rpy="0 0 0" xyz="${-1*width-.01} 0 0.2"/>
+    <limit effort="30" velocity="0.2"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+
+
   <xacro:macro name="gripper" params="prefix reflect">
     <joint name="${prefix}_gripper_joint" type="revolute">
       <axis xyz="0 0 ${reflect}"/>
