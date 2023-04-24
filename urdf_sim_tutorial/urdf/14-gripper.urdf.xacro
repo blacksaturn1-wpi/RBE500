@@ -120,7 +120,7 @@
   <xacro:leg prefix="right" reflect="-1" />
   <xacro:leg prefix="left" reflect="1" />
 
-  <joint name="gripper_extension" type="prismatic">
+  <joint name="gripper_extension_front" type="prismatic">
     <parent link="base_link"/>
     <child link="gripper_pole_front"/>
     <limit effort="1000.0" lower="-${width*2-.02}" upper="0" velocity="0.5"/>
@@ -150,7 +150,7 @@
     <actuator name="gripper_extension_motor">
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-    <joint name="gripper_extension">
+    <joint name="gripper_extension_front">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
@@ -178,13 +178,21 @@
     <limit effort="30" velocity="0.2"/>
     <dynamics damping="0.0" friction="0.0"/>
   </joint>
+  <transmission name="gripper_extension_trans_back" type="SimpleTransmission">
+    <type>transmission_interface/SimpleTransmission</type>
+    <actuator name="gripper_extension_motor_back">
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+    <joint name="gripper_extension_back">
+      <hardwareInterface>PositionJointInterface</hardwareInterface>
+    </joint>
+  </transmission>
 
-
- <xacro:macro name="gripper" params="prefix suffix reflect front1_back0 reflectY">
+ <xacro:macro name="gripper" params="prefix suffix reflect reflectY">
     <joint name="${prefix}_gripper_joint_${suffix}" type="revolute">
       <axis xyz="0 0 ${reflect}"/>
       <limit effort="1000.0" lower="0.0" upper="${0.548*reflectY}" velocity="0.5"/>
-      <origin rpy="0 0 0" xyz="${front1_back0*polelen} ${reflect*0.01} 0"/>
+      <origin rpy="0 0 0" xyz="${reflectY*polelen} ${reflect*0.01} 0"/>
       <parent link="gripper_pole_${suffix}"/>
       <child link="${prefix}_gripper_${suffix}"/>
       <limit effort="30" velocity="1.0"/>
@@ -236,11 +244,10 @@
     </link>
   </xacro:macro>
 
-  <xacro:gripper prefix="left" suffix="front" reflect="1" front1_back0="1" reflectY="1"/>
-  <xacro:gripper prefix="right" suffix="front" reflect="-1" front1_back0="1" reflectY="1"/> 
-
-  <xacro:gripper prefix="left" suffix="back" reflect="1" front1_back0="-1" reflectY="-1"/>
-  <xacro:gripper prefix="right" suffix="back" reflect="-1" front1_back0="-1" reflectY="-1"/>
+  <xacro:gripper prefix="left" suffix="front" reflect="1" reflectY="1"/>
+  <xacro:gripper prefix="right" suffix="front" reflect="-1" reflectY="1"/> 
+  <xacro:gripper prefix="left" suffix="back" reflect="1" reflectY="-1"/>
+  <xacro:gripper prefix="right" suffix="back" reflect="-1"  reflectY="-1"/>
 
 
   <link name="head">

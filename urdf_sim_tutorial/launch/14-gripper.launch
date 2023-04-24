@@ -18,10 +18,25 @@
   <rosparam command="load"
             file="$(find urdf_sim_tutorial)/config/gripper.yaml"
             ns="r2d2_gripper_controller" />
-
+  <rosparam command="load"
+            file="$(find urdf_sim_tutorial)/config/gripper_back.yaml"
+            ns="r2d2_gripper_controller_back" />
+  <!-- <rosparam command="load"
+            file="$(find urdf_sim_tutorial)/config/gripper_back.yaml"
+            ns="r2d2_gripper_controller_back" /> -->
+  <!-- <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+    args="r2d2_joint_state_controller
+          r2d2_head_controller
+          -shutdown-timeout 3"/> -->
   <!-- <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
     args="r2d2_joint_state_controller
           r2d2_head_controller
           r2d2_gripper_controller
           -shutdown-timeout 3"/> -->
+  <node name="r2d2_controller_spawner" pkg="controller_manager" type="spawner"
+    args="r2d2_joint_state_controller
+          r2d2_head_controller
+          r2d2_gripper_controller
+          r2d2_gripper_controller_back
+          --shutdown-timeout 3"/>
 </launch>
