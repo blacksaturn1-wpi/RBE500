@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- sudo apt-get install ros-noetic-xacro -->
+    <param name="robot_description" command="xacro '$(find mobile_robot)/urdf/rover.xacro'"/>
+    
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
+    <node pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" name="joint_state_publisher_gui"/>
+    
+    <arg name="rviz_config_file" default="$(find mobile_robot)/rviz/rover.rviz"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(arg rviz_config_file)"/>
+    
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <!-- <arg name="world_name" value="$(find turtlebot3_gazebo)/worlds/empty.world"/> Note: the world_name is with respect to GAZEBO_RESOURCE_PATH environmental variable -->
+        <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/>
+        <arg name="gui" value="true"/>
+        <arg name="headless" value="false"/>
+        <arg name="recording" value="false"/>
+        <arg name="debug" value="false"/>
+        
+    </include>
+    <node name="spawning_urdf" pkg="gazebo_ros" type="spawn_model" args="-urdf -model rover -param robot_description"/>
+    
+        
+
+
+</launch>
