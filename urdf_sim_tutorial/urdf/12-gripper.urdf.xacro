@@ -120,7 +120,7 @@
   <xacro:leg prefix="right" reflect="-1" />
   <xacro:leg prefix="left" reflect="1" />
 
-  <joint name="gripper_extension" type="prismatic">
+  <joint name="gripper_extension_front" type="prismatic">
     <parent link="base_link"/>
     <child link="gripper_pole"/>
     <limit effort="1000.0" lower="-${width*2-.02}" upper="0" velocity="0.5"/>
@@ -150,7 +150,7 @@
     <actuator name="gripper_extension_motor">
       <mechanicalReduction>1</mechanicalReduction>
     </actuator>
-    <joint name="gripper_extension">
+    <joint name="gripper_extension_front">
       <hardwareInterface>PositionJointInterface</hardwareInterface>
     </joint>
   </transmission>
