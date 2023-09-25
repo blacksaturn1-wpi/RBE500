@@ -6,6 +6,8 @@ http://wiki.ros.org/urdf/Tutorials
 
 http://wiki.ros.org/urdf/Tutorials/Using%20a%20URDF%20in%20Gazebo
 
+roslaunch urdf_sim_tutorial 14-gripper.launch
+
 # Turn Head
 rostopic pub /r2d2_head_controller/command std_msgs/Float64 "data: 0"
 
